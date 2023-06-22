@@ -1,25 +1,34 @@
-import serial
-from time import sleep
-
-com = serial.Serial()
-com.baudrate = 38400
-com.port = "COM1"
-com.parity = serial.PARITY_ODD
-com.stopbits = serial.STOPBITS_ONE
-com.bytesize = serial.EIGHTBITS
-
-sleep(2)
-
-com.open()
-
-com.write(bytearray.fromhex((0x02, 0x02, 0x10, 0x01, 0xEF)))
-
-capture = com.read(20)
-
-com.close()
-
-print(capture)
+from enum import Enum
 
 
+class CMD1(Enum):
 
-# Sense request = 0x6, Status sense = 0x20
+    SystemCommand = 0x00
+    ImmediateCommand = 0x10
+    SelectCommand = 0x20
+    SenseRequest = 0x30
+    TimelineCommand = 0x40
+    MacroCommand = 0x50
+
+
+class SystemCommands(Enum):
+
+    LocalDisable = 0x0C
+    LocalEnable = 0x0D
+    DeleteProtectID = 0x15
+    UnDeleteProtectID = 0x16
+
+
+class ImmediateCommands(Enum):
+
+    stop = 0x00
+    playID = 0x01
+    record = 0x02
+    freeze = 0x03
+    stillID = 0x04
+    stepID = 0x05
+    continueID = 0x06
+    jog = 0x07
+    variablePlay = 0x08
+    unfreeze = 0x09
+    eeMode = 0x0A
