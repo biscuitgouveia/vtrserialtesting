@@ -4,7 +4,6 @@ import binascii
 
 com = serial.Serial("COM1")
 com.baudrate = 38400
-# com.port = "COM1"
 com.parity = serial.PARITY_ODD
 com.stopbits = serial.STOPBITS_ONE
 com.bytesize = serial.EIGHTBITS
