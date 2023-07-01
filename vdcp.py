@@ -366,7 +366,7 @@ class Decoder:
                 decoded_response.log_status_all()
             case CommandTypes.SenseRequestCommands.response_active_id_request.value:
                 for i in self.response_list:
-                    print(int(i))
+                    logging.info(i)
             case _:
                 logging.info(response_list)
 
