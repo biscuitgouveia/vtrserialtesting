@@ -69,7 +69,7 @@ class Decoder:
     def decode_sense_request(self, response_list, sent_data):
         logging.info("Decoding a response to a sense request command")
 
-        match self.response_list[3]:
+        match int(self.response_list[3], 16):
             case commandTypes.SenseRequestCommands.response_open_port.value:
                 if response_list[4] == 0x1:
                     logging.info("Port Granted")
