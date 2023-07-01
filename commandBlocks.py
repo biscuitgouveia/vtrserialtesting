@@ -107,13 +107,13 @@ class CommandBlocks:
         self.capture = binascii.b2a_hex(self.capture)
         print(self.capture)
 
-    def get_port_status(self, data=[0, 0, 0, 1, 1, 1, 1, 1]):
+    def get_port_status(self, data=BitArray(bin="00011111")):
 
         self.packet = encoder.encode_packet(
             encoder.encode_commands(
                 commandTypes.CMD1.SenseRequest.value,
                 commandTypes.SenseRequestCommands.port_status.value,
-                data
+                [data.uint, ]
             )
         )
 
