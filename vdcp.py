@@ -293,15 +293,13 @@ class Decoder:
         logging.info("Decoding response")
         logging.info("Converting byte array into hex list")
         self.response_list = [hex(byte) for byte in response]
-        for i in self.response_list:
-            i = int(i, 16)
 
         # ACK
-        if self.response_list[0] == 0x04:
+        if int(self.response_list[0], 16) == 0x04:
             logging.info("Command acknowledged by Deck")
         # NAK
-        elif self.response_list[0] == 0x05:
-            match self.response_list[1], 16:
+        elif int(self.response_list[0], 16) == 0x05:
+            match int(self.response_list[1], 16):
                 case 0x01:
                     logging.warning("Undefined Error:\nThe command received could not be interpreted "
                                     "as one from this protocol.\n***Command ignored***")
@@ -325,7 +323,7 @@ class Decoder:
                     logging.error(f"Unable to parse error bytes:\nBare form - {response}\n"
                                   f"Listed form - {self.response_list}")
         else:
-            match self.response_list[2]:
+            match int(self.response_list[2], 16):
                 case CommandTypes.CMD1.SenseRequest.value:
                     self.decode_sense_request(self.response_list, sent_data)
                 case CommandTypes.CMD1.TimelineCommand.value:
@@ -339,7 +337,7 @@ class Decoder:
     def decode_sense_request(self, response_list, sent_data):
         logging.info("Decoding a response to a sense request command")
 
-        match self.response_list[3]:
+        match int(self.response_list[3], 16):
             case CommandTypes.SenseRequestCommands.response_open_port.value:
                 if response_list[4] == 0x1:
                     logging.info("Port Granted")
