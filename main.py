@@ -5,15 +5,15 @@ import binascii
 import commandTypes
 from commandBlocks import CommandBlocks
 
-
-def main():
-
-    com = serial.Serial("COM1")
+com = serial.Serial("COM1")
     com.baudrate = 38400
     com.parity = serial.PARITY_ODD
     com.stopbits = serial.STOPBITS_ONE
     com.bytesize = serial.EIGHTBITS
     com.timeout = 2
+
+def main():
+
 
 
 

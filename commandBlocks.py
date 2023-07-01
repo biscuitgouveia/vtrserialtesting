@@ -1,6 +1,7 @@
 import commandTypes
 import encoder
 import binascii
+import main
 from decoder import Decoder
 from statusCodes import StatusCodes
 from bitstring import Bits, BitArray, BitStream, pack
@@ -59,7 +60,7 @@ class CommandBlocks:
             case commandTypes.CMD1.MacroCommand.value:
                 pass
 
-    def open_port(self, port_number=0x01, target_port="COM1", is_locked=False):
+    def open_port(self, port_number=0x01, target_port=main.com.port, is_locked=False):
 
         if is_locked:
             is_locked = 0x01
