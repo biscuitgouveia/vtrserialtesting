@@ -310,8 +310,8 @@ class Decoder:
         elif int(self.response_list[0], 16) == 0x05:
             match int(self.response_list[1], 16):
                 case 0x01:
-                    logging.warning("Undefined Error:\nThe command received could not be interpreted "
-                                    "as one from this protocol.\n***Command ignored***")
+                    logging.warning(f"Undefined Error:\nThe command received could not be interpreted "
+                                    f"as one from this protocol.\n{response}\n{self.response_list}\n***Command ignored***")
                 case 0x04:
                     logging.warning("Checksum Error:\nThe checksum of the data received "
                                     "(as calculated by the disk system per this protocol) does not "
