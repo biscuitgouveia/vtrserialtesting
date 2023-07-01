@@ -47,7 +47,7 @@ class VDCP:
             CommandTypes.SystemCommands.local_disable.value
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     def local_enable(self):
 
@@ -57,7 +57,7 @@ class VDCP:
             CommandTypes.SystemCommands.local_enable.value
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     @staticmethod
     def delete_from_archive():
@@ -93,7 +93,7 @@ class VDCP:
             CommandTypes.ImmediateCommands.stop.value
             )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     def play_port(self, data=None):
 
@@ -108,7 +108,7 @@ class VDCP:
             CommandTypes.ImmediateCommands.playID.value
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     def record_port(self):
 
@@ -118,7 +118,7 @@ class VDCP:
             CommandTypes.ImmediateCommands.record.value
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     @staticmethod
     def freeze_port():
@@ -136,7 +136,7 @@ class VDCP:
             CommandTypes.ImmediateCommands.stillID
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     def step_port(self):
 
@@ -199,7 +199,7 @@ class VDCP:
             data
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     def select_port(self, data=[0x01, ]):
 
@@ -212,7 +212,7 @@ class VDCP:
             )
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     @staticmethod
     def record_init():
@@ -234,7 +234,7 @@ class VDCP:
             data
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     @staticmethod
     def cue_with_data():
@@ -259,7 +259,7 @@ class VDCP:
             [port_number, is_locked]
             )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     def get_port_status(self, data=BitArray(bin="00011111")):
 
@@ -271,7 +271,7 @@ class VDCP:
             )
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
     def active_id_request(self):
 
@@ -280,7 +280,7 @@ class VDCP:
             CommandTypes.SenseRequestCommands.active_id_request.value
         )
 
-        return VDCP.send_to_decoder()
+        return VDCP.send_to_decoder(self)
 
 
 class Decoder:

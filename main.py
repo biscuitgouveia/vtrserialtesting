@@ -15,7 +15,7 @@ def main():
 
     test_play.active_id_request()
 
-    test_play.stop_port()
+    # test_play.stop_port()
 
     test_play.get_port_status()
 
