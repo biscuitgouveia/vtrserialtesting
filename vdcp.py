@@ -203,7 +203,7 @@ class VDCP:
 
     def select_port(self, data=[0x01, ]):
 
-        logging.debug("Selecting Port 1")
+        logging.debug("\nSelecting Port 1\n")
         # Req
         self.packet = Encoder.encode_packet(
             Encoder.encode_commands(
@@ -248,7 +248,7 @@ class VDCP:
 
     def open_port(self, port_number=0x01, is_locked=False):
 
-        logging.debug("Opening Port")
+        logging.debug("\nOpening Port\n")
         # -Req
         if is_locked:
             is_locked = 0x01
@@ -345,10 +345,10 @@ class Decoder:
 
         match int(self.response_list[3], 16):
             case CommandTypes.SenseRequestCommands.response_open_port.value:
-                if response_list[4] == 0x1:
+                if int(response_list[4], 16) == 0x1:
                     logging.info("Port Granted")
                     # Todo: set a global variable indicating whether or not there is an open signal port
-                elif response_list[4] == 0x0:
+                elif int(response_list[4], 16) == 0x0:
                     logging.info("Port Denied")
                 else:
                     logging.warning(f"Unexpected response: Listed form - {response_list}")
