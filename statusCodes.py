@@ -7,7 +7,7 @@ logging.getLogger().addHandler(logging.StreamHandler())
 
 def check_bit(response_number, bit_place):
 
-    if response_number & (1 << bit_place):
+    if int(response_number, 16) & (1 << bit_place):
         return True
     else:
         return False
