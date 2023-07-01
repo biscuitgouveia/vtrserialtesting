@@ -24,6 +24,10 @@ def main():
 
     test_play.get_port_status()
 
+    test_play.stop_port()
+
+    test_play.get_port_status()
+
     test_play.serial_port.close()
 
 
