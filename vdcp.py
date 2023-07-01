@@ -207,7 +207,7 @@ class VDCP:
         self.packet = Encoder.encode_packet(
             Encoder.encode_commands(
                 CommandTypes.CMD1.SelectCommand.value,
-                CommandTypes.SelectCommands.select_port,
+                CommandTypes.SelectCommands.select_port.value,
                 data
             )
         )
