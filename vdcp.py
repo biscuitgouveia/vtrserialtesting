@@ -253,11 +253,13 @@ class VDCP:
         else:
             is_locked = 0x00
 
-        self.packet = Encoder.encode_abstract(
-            CommandTypes.CMD1.SenseRequest.value,
-            CommandTypes.SenseRequestCommands.open_port.value,
-            [port_number, is_locked]
+        self.packet = Encoder.encode_packet(
+            Encoder.encode_commands(
+                CommandTypes.CMD1.SenseRequest.value,
+                CommandTypes.SenseRequestCommands.open_port.value,
+                [port_number, is_locked]
             )
+        )
 
         return VDCP.send_to_decoder(self)
 
