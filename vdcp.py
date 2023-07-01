@@ -104,7 +104,7 @@ class Decoder:
         self.response_list = [hex(byte) for byte in response]
 
         # ACK
-        if response == 0x04:
+        if response == b'\x04':
             logging.info("Command acknowledged by Deck")
         # NAK
         elif self.response_list[0] == 0x05:
