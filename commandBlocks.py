@@ -91,6 +91,22 @@ class CommandBlocks:
         self.capture = binascii.b2a_hex(self.capture)
         print(self.capture)
 
+    def select_port(self):
+
+        self.packet = encoder.encode_packet(
+            encoder.encode_commands(
+                commandTypes.CMD1.SelectCommand.value,
+                0x22,
+                [0x01, ]
+            )
+        )
+
+        self.serial_port.write(self.packet)
+        self.capture = self.serial_port.read(50)
+        print(self.capture)
+        self.capture = binascii.b2a_hex(self.capture)
+        print(self.capture)
+
     def get_port_status(self, data=[0, 0, 0, 1, 1, 1, 1, 1]):
 
         self.packet = encoder.encode_packet(

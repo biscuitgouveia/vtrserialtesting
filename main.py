@@ -20,6 +20,8 @@ def main():
 
     test_play.open_port()
 
+    test_play.select_port()
+
     test_play.get_port_status()
 
     test_play.serial_port.close()
