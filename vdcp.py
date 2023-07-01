@@ -280,10 +280,13 @@ class VDCP:
 
     def active_id_request(self):
 
-        logging.debug("Getting active id")
-        self.packet = Encoder.encode_abstract(
-            CommandTypes.CMD1.SenseRequest.value,
-            CommandTypes.SenseRequestCommands.active_id_request.value
+        logging.debug("\nGetting active id\n")
+
+        self.packet = Encoder.encode_packet(
+            Encoder.encode_commands(
+                CommandTypes.CMD1.SenseRequest.value,
+                CommandTypes.SenseRequestCommands.active_id_request.value
+            )
         )
 
         return VDCP.send_to_decoder(self)
