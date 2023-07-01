@@ -55,12 +55,12 @@ class Decoder:
                     logging.error(f"Unable to parse error bytes:\nBare form - {response}\n"
                                   f"Listed form - {self.response_list}")
         else:
-            match self.response_list[2]:
-                case int(commandTypes.CMD1.SenseRequest.value, 16):
+            match int(self.response_list[2], 16):
+                case commandTypes.CMD1.SenseRequest.value:
                     self.decode_sense_request(self.response_list, sent_data)
-                case int(commandTypes.CMD1.TimelineCommand.value, 16):
+                case commandTypes.CMD1.TimelineCommand.value:
                     self.decode_timeline_command(self.response_list, self.sent_data)
-                case int(commandTypes.CMD1.MacroCommand.value, 16):
+                case commandTypes.CMD1.MacroCommand.value:
                     self.decode_macro_command(self.response_list, self.sent_data)
                 case _:
                     logging.error(f"Unable to decode response: Bare form - {response}, "
