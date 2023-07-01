@@ -86,6 +86,7 @@ class Decoder:
             case commandTypes.SenseRequestCommands.response_port_status_request.value:
                 # Data format - 0x2, BC, 0x30, 0x85, Data 1 (Port Status Bitmap), Data ...
                 decoded_response = StatusCodes(self.response_list)
+                decoded_response.log_status_all()
 
     def decode_timeline_command(self, response_list, sent_data):
         logging.info("Decoding a response to a timeline command")
