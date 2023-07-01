@@ -64,6 +64,7 @@ class StatusCodes:
     network_error = False
     system_rebooted = False
 
+    # Port settings not implemented
     port_settings = False
     port_format_off = False
     port_format_composite = False
@@ -71,6 +72,7 @@ class StatusCodes:
     port_format_yuv = False
     port_format_d1 = False
 
+    # Compression type not implemented
     video_compression_type = False
     video_compression_default = False
     video_compression_jpeg = False
@@ -230,5 +232,43 @@ class StatusCodes:
                              "issued while the busy bit was set - command ignored")
             if self.not_supported:
                 logging.info("A command was issued that is not supported by the device - command ignored")
-
-
+            if self.invalid_id:
+                logging.info("Invalid ID specified - command ignored")
+            if self.id_not_found:
+                logging.info("Specified ID was not found - command ignored")
+            if self.id_already_exists:
+                logging.info("Specified ID already exists - command ignored")
+            if self.id_still_recording:
+                logging.info("ID is still recording - command ignored")
+            if self.id_still_playing:
+                logging.info("ID is still playing - command ignored")
+            if self.id_not_transferred_from_archive:
+                logging.info("ID not yet transferred from archive - command ignored")
+            if self.id_not_transferred_to_archive:
+                logging.info("ID not yet transferred to archive and already exists on the disk - command ignored")
+            if self.id_delete_protected:
+                logging.info("ID is delete protected. Can not delete ID - command ignored")
+            if self.not_in_cue_init_state:
+                logging.info("A command was issued which requires the system to "
+                             "be in the cueing state - command ignored")
+            if self.cue_not_done:
+                logging.info("A command was issued which requires the system to "
+                             "be in the cue/init done state - command ignored")
+            if self.port_not_idle:
+                logging.info("A command was issued which requires the system to "
+                             "be in the idle state - command ignored")
+            if self.port_playing_active:
+                logging.info("A command was issued which requires the system to "
+                             "not be in the play state - command ignored")
+            if self.port_not_active:
+                logging.info("A command was issued which requires the system to "
+                             "be playing, recording, or active - command ignored")
+            if self.cue_or_operation_failed:
+                logging.error("A CUE command or other command that has been ACKed "
+                              "and started has failed for some unknown reason - command "
+                              "will not be executed correctly")
+            if self.network_error:
+                logging.info("File transfer cancelled due to network error")
+            if self.system_rebooted:
+                logging.info("System has been rebooted. Controller must do PORT OPEN "
+                             "and SELECT commands, plus any other start up command sequence")
