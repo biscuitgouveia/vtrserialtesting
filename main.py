@@ -5,17 +5,8 @@ import binascii
 import commandTypes
 from commandBlocks import CommandBlocks
 
-com = serial.Serial("COM1")
-com.baudrate = 38400
-com.parity = serial.PARITY_ODD
-com.stopbits = serial.STOPBITS_ONE
-com.bytesize = serial.EIGHTBITS
-com.timeout = 2
 
 def main():
-
-
-
 
     # com.write(bytearray.fromhex((0x02, 0x02, 0x10, 0x01, 0xEF)))
 
@@ -23,11 +14,15 @@ def main():
 
     # capture = com.read(20)
 
-    open_port = CommandBlocks(commandTypes.CMD1.SenseRequest.value, commandTypes.SenseRequestCommands.open_port.value)
+    test_play = CommandBlocks()
 
-    get_status = CommandBlocks(commandTypes.CMD1.SenseRequest.value, commandTypes.SenseRequestCommands.port_status.value)
+    test_play.init_serial()
 
-    com.close()
+    test_play.open_port()
+
+    test_play.get_port_status()
+
+    test_play.serial_port.close()
 
 
 if __name__ == '__main__':
