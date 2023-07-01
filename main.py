@@ -7,6 +7,7 @@ from commandBlocks import CommandBlocks
 
 
 def main():
+
     com = serial.Serial("COM1")
     com.baudrate = 38400
     com.parity = serial.PARITY_ODD

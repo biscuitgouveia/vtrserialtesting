@@ -23,13 +23,13 @@ class CommandBlocks:
             case commandTypes.CMD1.SenseRequest.value:
                 match cmd2:
                     case commandTypes.SenseRequestCommands.open_port.value:
-                        pass
+                        CommandBlocks.open_port(self)
                     case commandTypes.SenseRequestCommands.next_ten_ids.value:
                         pass
                     case commandTypes.SenseRequestCommands.last_response.value:
                         pass
                     case commandTypes.SenseRequestCommands.port_status.value:
-                        pass
+                        CommandBlocks.get_port_status(self)
                     case commandTypes.SenseRequestCommands.position_request.value:
                         pass
                     case commandTypes.SenseRequestCommands.active_id_request.value:
