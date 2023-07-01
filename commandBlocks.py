@@ -121,3 +121,4 @@ class CommandBlocks:
         self.capture = self.serial_port.read(100)
         port_status_decoder = Decoder(self.capture, self.packet)
 
+

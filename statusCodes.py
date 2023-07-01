@@ -85,7 +85,7 @@ class StatusCodes:
 
     def __init__(self, response_list):
 
-        if response_list[4] % 2 > 0:
+        if check_bit(response_list[4], 0):
             self.byte_count += 1
             self.state_flag_status = True
             self.port_idle_state = check_bit(response_list[self.byte_count], 0)
