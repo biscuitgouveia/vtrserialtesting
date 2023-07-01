@@ -5,11 +5,12 @@ from enum import Enum
 
 logging.basicConfig(filename="python_serial_testing.log", level=logging.DEBUG,
                     format="%(asctime)s - %(levelname)s - %(message)s")
+logging.getLogger().addHandler(logging.StreamHandler())
 
 
 def check_bit(response_number, bit_place):
 
-    if response_number & (1 << bit_place):
+    if int(response_number, 16) & (1 << bit_place):
         return True
     else:
         return False
