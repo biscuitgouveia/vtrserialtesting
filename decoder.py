@@ -56,11 +56,11 @@ class Decoder:
                                   f"Listed form - {self.response_list}")
         else:
             match self.response_list[2]:
-                case commandTypes.CMD1.SenseRequest.value:
+                case int(commandTypes.CMD1.SenseRequest.value, 16):
                     self.decode_sense_request(self.response_list, sent_data)
-                case commandTypes.CMD1.TimelineCommand.value:
+                case int(commandTypes.CMD1.TimelineCommand.value, 16):
                     self.decode_timeline_command(self.response_list, self.sent_data)
-                case commandTypes.CMD1.MacroCommand.value:
+                case int(commandTypes.CMD1.MacroCommand.value, 16):
                     self.decode_macro_command(self.response_list, self.sent_data)
                 case _:
                     logging.error(f"Unable to decode response: Bare form - {response}, "
