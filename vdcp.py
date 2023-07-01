@@ -203,6 +203,7 @@ class VDCP:
 
     def select_port(self, data=[0x01, ]):
 
+        logging.debug("Selecting Port 1")
         # Req
         self.packet = Encoder.encode_packet(
             Encoder.encode_commands(
@@ -247,6 +248,7 @@ class VDCP:
 
     def open_port(self, port_number=0x01, is_locked=False):
 
+        logging.debug("Opening Port")
         # -Req
         if is_locked:
             is_locked = 0x01
@@ -265,6 +267,7 @@ class VDCP:
 
     def get_port_status(self, data=BitArray(bin="00011111")):
 
+        logging.debug("Getting port status")
         self.packet = Encoder.encode_packet(
             Encoder.encode_commands(
                 CommandTypes.CMD1.SenseRequest.value,
@@ -277,6 +280,7 @@ class VDCP:
 
     def active_id_request(self):
 
+        logging.debug("Getting active id")
         self.packet = Encoder.encode_abstract(
             CommandTypes.CMD1.SenseRequest.value,
             CommandTypes.SenseRequestCommands.active_id_request.value
