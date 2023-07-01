@@ -292,7 +292,7 @@ class Decoder:
 
         logging.info("Decoding response")
         logging.info("Converting byte array into hex list")
-        self.response_list = [int(byte, 16) for byte in response]
+        self.response_list = [int(byte) for byte in response]
 
         # ACK
         if response == 0x04:
