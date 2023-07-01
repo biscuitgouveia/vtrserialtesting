@@ -22,60 +22,244 @@ class VDCP:
     capture = []
     serial_port = None
 
-    def init_serial(self, com="COM1", serial_timeout=2):
+    def send_to_decoder(self):
 
-        self.serial_port = serial.Serial(com)
+        self.serial_port.write(self.packet)
+        self.capture = self.serial_port.read(50)
+        return Decoder(self.capture, self.packet)
+
+    def init_serial(self, com_port="COM1", serial_timeout=2):
+
+        self.serial_port = serial.Serial(com_port)
         self.serial_port.baudrate = 38400
         self.serial_port.parity = serial.PARITY_ODD
         self.serial_port.stopbits = serial.STOPBITS_ONE
         self.serial_port.bytesize = serial.EIGHTBITS
         self.serial_port.timeout = serial_timeout
 
+    # --------------------> System Commands
+
+    def local_disable(self):
+
+        # -Opt
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.SystemCommand.value,
+            CommandTypes.SystemCommands.local_disable.value
+        )
+
+        return VDCP.send_to_decoder()
+
+    def local_enable(self):
+
+        # -Opt
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.SystemCommand.value,
+            CommandTypes.SystemCommands.local_enable.value
+        )
+
+        return VDCP.send_to_decoder()
+
+    @staticmethod
+    def delete_from_archive():
+
+        # +Opt
+        logging.info("The delete_from_archive function has not been "
+                     "implemented as there is no archival system connected "
+                     "to this deck - command ignored")
+
+    @staticmethod
+    def delete_protect_id():
+
+        # Todo: Implement delete_protect_id
+        # +Opt
+        logging.info("The function to protect and unprotect clips has not yet been implemented "
+                     "but it is planned for the future - command ignored")
+
+    @staticmethod
+    def undelete_protect_id():
+
+        # Todo: Implement undelete_protect_id
+        # +Opt
+        logging.info("The function to protect and unprotect clips has not yet been implemented "
+                     "but it is planned for the future - command ignored")
+
+    # --------------------> Immediate Commands
+
     def stop_port(self):
 
+        # -Req
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.ImmediateCommand.value,
+            CommandTypes.ImmediateCommands.stop.value
+            )
+
+        return VDCP.send_to_decoder()
+
+    def play_port(self, data=None):
+
+        # -Req
+        # Todo: Implement data entry to play_port command (see VDCP manual p.20 under 1X.01: PLAY)
+        if data:
+            logging.info("The function to play a prepared file handle by including "
+                         "data in the play_port command has not yet been implemented "
+                         "but it is planned for the future - command ignored")
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.ImmediateCommand.value,
+            CommandTypes.ImmediateCommands.playID.value
+        )
+
+        return VDCP.send_to_decoder()
+
+    def record_port(self):
+
+        # -Req
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.ImmediateCommand.value,
+            CommandTypes.ImmediateCommands.record.value
+        )
+
+        return VDCP.send_to_decoder()
+
+    @staticmethod
+    def freeze_port():
+
+        # Todo: Implement freeze_port
+        # -Opt
+        logging.info("The function to freeze input has not yet been implemented "
+                     "but it is planned for the future - command ignored")
+
+    def still_port(self):
+
+        # -Opt
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.ImmediateCommand.value,
+            CommandTypes.ImmediateCommands.stillID
+        )
+
+        return VDCP.send_to_decoder()
+
+    def step_port(self):
+
+        # -Opt
+        pass
+
+    def continue_port(self):
+
+        # -Opt
+        pass
+
+    def jog_port(self):
+
+        # -Opt
+        pass
+
+    def vari_play_port(self):
+
+        # -Opt
+        pass
+
+    def unfreeze_port(self):
+
+        # -Opt
+        pass
+
+    def ee_mode_port(self):
+
+        # -Opt
+        pass
+
+    # --------------------> Preset / Select Commands
+
+    def rename_id(self):
+
+        # +Opt
+        pass
+
+    def preset_standard_time(self):
+
+        # +Opt
+        pass
+
+    def new_copy(self):
+
+        # +Opt
+        pass
+
+    def sort_mode(self):
+
+        # +Opt
+        pass
+
+    def close_port(self, data=[0x01, ]):
+
+        # -Req
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.SelectCommand.value,
+            CommandTypes.SelectCommands.close_port.value,
+            data
+        )
+
+        return VDCP.send_to_decoder()
+
+    def select_port(self, data=[0x01, ]):
+
+        # Req
         self.packet = Encoder.encode_packet(
             Encoder.encode_commands(
-                CommandTypes.CMD1.ImmediateCommand.value,
-                CommandTypes.ImmediateCommands.stop.value
+                CommandTypes.CMD1.SelectCommand.value,
+                CommandTypes.SelectCommands.select_port,
+                data
             )
         )
 
-        self.serial_port.write(self.packet)
-        self.capture = self.serial_port.read(50)
-        current_object = Decoder(self.capture, self.packet)
+        return VDCP.send_to_decoder()
+
+    @staticmethod
+    def record_init():
+
+        # -Req
+        # Todo: Implement record_init
+        logging.info("The function to initialise a record has not yet been implemented "
+                     "but it is planned for the future - command ignored")
+
+    def play_cue(self, data=None):
+
+        # -Req
+        if not data:
+            logging.warning("Please specify a video id to cue up!")
+
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.SelectCommand.value,
+            CommandTypes.SelectCommands.play_cue.value,
+            data
+        )
+
+        return VDCP.send_to_decoder()
+
+    @staticmethod
+    def cue_with_data():
+
+        # -Opt
+        # Todo: Implement cue_with_data
+        pass
+
+    # --------------------> Sense Request Commands
 
     def open_port(self, port_number=0x01, is_locked=False):
 
+        # -Req
         if is_locked:
             is_locked = 0x01
         else:
             is_locked = 0x00
 
-        self.packet = Encoder.encode_packet(
-            Encoder.encode_commands(
-                CommandTypes.CMD1.SenseRequest.value,
-                CommandTypes.SenseRequestCommands.open_port.value,
-                [port_number, is_locked]
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.SenseRequest.value,
+            CommandTypes.SenseRequestCommands.open_port.value,
+            [port_number, is_locked]
             )
-        )
 
-        self.serial_port.write(self.packet)
-        self.capture = self.serial_port.read(50)
-        current_object = Decoder(self.capture, self.packet)
-
-    def select_port(self):
-
-        self.packet = Encoder.encode_packet(
-            Encoder.encode_commands(
-                CommandTypes.CMD1.SelectCommand.value,
-                0x22,
-                [0x01, ]
-            )
-        )
-
-        self.serial_port.write(self.packet)
-        self.capture = self.serial_port.read(50)
-        current_object = Decoder(self.capture, self.packet)
+        return VDCP.send_to_decoder()
 
     def get_port_status(self, data=BitArray(bin="00011111")):
 
@@ -87,9 +271,16 @@ class VDCP:
             )
         )
 
-        self.serial_port.write(self.packet)
-        self.capture = self.serial_port.read(100)
-        current_object = Decoder(self.capture, self.packet)
+        return VDCP.send_to_decoder()
+
+    def active_id_request(self):
+
+        self.packet = Encoder.encode_abstract(
+            CommandTypes.CMD1.SenseRequest.value,
+            CommandTypes.SenseRequestCommands.active_id_request.value
+        )
+
+        return VDCP.send_to_decoder()
 
 
 class Decoder:
@@ -107,8 +298,8 @@ class Decoder:
         if response == b'\x04':
             logging.info("Command acknowledged by Deck")
         # NAK
-        elif self.response_list[0] == 0x05:
-            match self.response_list[1]:
+        elif self.response_list[0] == b'\x05':
+            match int(self.response_list[1], 16):
                 case 0x01:
                     logging.warning("Undefined Error:\nThe command received could not be interpreted "
                                     "as one from this protocol.\n***Command ignored***")
@@ -164,6 +355,11 @@ class Decoder:
                 # Data format - 0x2, BC, 0x30, 0x85, Data 1 (Port Status Bitmap), Data ...
                 decoded_response = StatusCodes(self.response_list)
                 decoded_response.log_status_all()
+            case CommandTypes.SenseRequestCommands.response_active_id_request.value:
+                for i in self.response_list:
+                    print(int(i))
+            case _:
+                logging.info(response_list)
 
     def decode_timeline_command(self, response_list, sent_data):
         logging.info("Decoding a response to a timeline command")
@@ -210,6 +406,42 @@ class CommandTypes:
         variablePlay = 0x08
         unfreeze = 0x09
         eeMode = 0x0A
+
+    class SelectCommands(Enum):
+
+        rename_id = 0x1D
+        preset_standard_time = 0x1E
+        new_copy = 0x1F
+        sort_mode = 0x20
+        close_port = 0x21
+        select_port = 0x22
+        record_init = 0x23
+        play_cue = 0x24
+        cue_with_data = 0x25
+        delete_id = 0x26
+        get_from_archive = 0x27
+        select_clear = 0x29
+        send_to_archive = 0x2A
+        percent_to_signal_full = 0x2B
+        record_init_with_data = 0x2C
+        select_logical_drive = 0x2D
+        system_delete_id = 0x2E
+        preset = 0x30
+        video_compression_rate = 0x31
+        audio_sample_rate = 0x32
+        audio_compression_rate = 0x33
+        audio_in_level = 0x34
+        audio_out_level = 0x35
+        video_compression_params = 0x37
+        select_output = 0x38
+        select_input = 0x39
+        record_mode = 0x3A
+        sc_adjust = 0x41
+        horizontal_position_adjust = 0x42
+        disk_preroll = 0x43
+        copy_file_to = 0x50
+        delete_file_from = 0x51
+        abort_copy_file = 0x52
 
     class SenseRequestCommands(Enum):
 
@@ -550,3 +782,12 @@ class Encoder:
         packet.append(checksum_value)
 
         return packet
+
+    @staticmethod
+    def encode_abstract(encoder_cmd1, encoder_cmd2, data=None):
+
+        return Encoder.encode_commands(
+            encoder_cmd1,
+            encoder_cmd2,
+            data
+        )
