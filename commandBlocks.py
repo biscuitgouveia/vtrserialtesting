@@ -70,6 +70,21 @@ class CommandBlocks:
         self.serial_port.bytesize = serial.EIGHTBITS
         self.serial_port.timeout = 2
 
+    def stop_port(self, port_number=0x01):
+
+        self.packet = encoder.encode_packet(
+            encoder.encode_commands(
+                commandTypes.CMD1.ImmediateCommand.value,
+                commandTypes.ImmediateCommands.stop.value
+            )
+        )
+
+        self.serial_port.write(self.packet)
+        self.capture = self.serial_port.read(50)
+        print(self.capture)
+        self.capture = binascii.b2a_hex(self.capture)
+        print(self.capture)
+
     def open_port(self, port_number=0x01, is_locked=False):
 
         if is_locked:
