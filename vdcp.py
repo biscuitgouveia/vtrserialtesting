@@ -292,10 +292,12 @@ class Decoder:
 
         logging.info("Decoding response")
         logging.info("Converting byte array into hex list")
-        self.response_list = [int(byte) for byte in response]
+        self.response_list = [hex(byte) for byte in response]
+        for i in self.response_list:
+            i = int(i, 16)
 
         # ACK
-        if response == 0x04:
+        if self.response_list[0] == 0x04:
             logging.info("Command acknowledged by Deck")
         # NAK
         elif self.response_list[0] == 0x05:
